@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "90b0b8e0-2879-4468-8490-01734a457c93",
+		"name": "task_sii",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34632865"
+	},
+	"item": [
+		{
+			"name": "promocodes",
+			"item": [
+				{
+					"name": "create promocode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"code\": \"SUMMER2024\",\r\n  \"discount\": \"50.00\",\r\n  \"currencyCode\": \"USD\",\r\n  \"maxUsages\": 100,\r\n  \"expirationDate\": \"2024-08-31\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/promocodes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"promocodes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get promocode",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
