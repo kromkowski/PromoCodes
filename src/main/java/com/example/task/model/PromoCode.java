@@ -20,10 +20,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class PromoCode {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 
+    @Id
     @NonNull
     @Size(min=3, max=24)
     private String code;

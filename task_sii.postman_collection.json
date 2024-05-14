@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"code\": \"SUMMER2024\",\r\n  \"discount\": \"50.00\",\r\n  \"currencyCode\": \"USD\",\r\n  \"maxUsages\": 100,\r\n  \"expirationDate\": \"2024-08-31\"\r\n}\r\n",
+							"raw": "{\r\n  \"code\": \"CODE\",\r\n  \"discount\": \"2.00\",\r\n  \"currencyCode\": \"USD\",\r\n  \"maxUsages\": 32,\r\n  \"expirationDate\": \"2024-08-31\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -39,6 +39,54 @@
 				},
 				{
 					"name": "get promocode",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update products",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "calculate discount",
 					"request": {
 						"method": "GET",
 						"header": []

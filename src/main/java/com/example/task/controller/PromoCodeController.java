@@ -26,7 +26,7 @@ public class PromoCodeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPromoCode(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(promoCodeService.getPromoCode(id));
+    public ResponseEntity<?> getPromoCode(@PathVariable String code) {
+        return ResponseEntity.status(HttpStatus.OK).body(promoCodeService.getPromoCode(code));
     }
 }
