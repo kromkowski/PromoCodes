@@ -18,7 +18,7 @@ http://localhost:8080/h2-console
 1. Create a new product
 
 (POST)
-```localhost:8080/api/products``
+```localhost:8080/api/products```
 
 example body:
 
@@ -103,7 +103,7 @@ localhost:8080/api/products/{productID}/calculateDiscount?code={code}
 ```
 localhost:8080/api/purchases?productID={productID}&code={code}
 ```
-* the code is optional and can be ignored
+* the code parameter is optional and can be ignored
 
 
 9. [Optional] A sales report: number of purchases and total value by currency (see below)
