@@ -18,6 +18,7 @@ http://localhost:8080/h2-console
 1. Create a new product
 
 (POST)
+
 ```localhost:8080/api/products```
 
 example body:
@@ -31,6 +32,7 @@ example body:
 }
 ```
 
+---
 
 2. Get all products
 
@@ -38,6 +40,8 @@ example body:
 ```
 localhost:8080/api/products
 ```
+
+---
 
 3. Update product data
 
@@ -56,6 +60,8 @@ example body:
     "currencyCode": "USD"
 }
 ```
+
+---
 
 4. Create a new promo code.
 
@@ -76,12 +82,16 @@ example body:
 }
 ```
 
+---
+
 5. Get all promo codes.
 
 (GET)
 ```
 localhost:8080/api/promocodes
 ```
+
+---
 
 6. Get one promo code's details by providing the promo code. The detail should also contain the number of usages.
 
@@ -90,12 +100,16 @@ localhost:8080/api/promocodes
 localhost:8080/api/promocodes/{code}
 ```
 
+---
+
 7. Get the discount price by providing a product and a promo code.
 
 (GET)
 ```
 localhost:8080/api/products/{productID}/calculateDiscount?code={code}
 ```
+
+---
 
 8. Simulate purchase
 
@@ -105,6 +119,8 @@ localhost:8080/api/purchases?productID={productID}&code={code}
 ```
 * the code parameter is optional and can be ignored
 
+---
+
 
 9. [Optional] A sales report: number of purchases and total value by currency (see below)
 
@@ -112,5 +128,7 @@ localhost:8080/api/purchases?productID={productID}&code={code}
 ```
 localhost:8080/api/purchases/sales-report
 ```
+
+---
 
 Also you can use included postman collection (`task_sii.postman_collection.json`).
