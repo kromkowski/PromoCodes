@@ -8,7 +8,7 @@ mvn clean
 mvn install
 mvn spring-boot:run
 ```
-* the database schema is automatically generated during the startup of the app
+\* the database schema is automatically generated during the startup of the app
 
 If you want to use database queries, you can use the following link (assuming that the app is running in the background)
 http://localhost:8080/h2-console
@@ -18,8 +18,9 @@ http://localhost:8080/h2-console
 1. Create a new product
 
 (POST)
-
-```localhost:8080/api/products```
+```
+localhost:8080/api/products
+```
 
 example body:
 
@@ -117,7 +118,7 @@ localhost:8080/api/products/{productID}/calculateDiscount?code={code}
 ```
 localhost:8080/api/purchases?productID={productID}&code={code}
 ```
-* the code parameter is optional and can be ignored
+\* the code parameter is optional and can be ignored
 
 ---
 
