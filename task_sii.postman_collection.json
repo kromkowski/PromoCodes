@@ -80,13 +80,104 @@
 				{
 					"name": "update products",
 					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cookies\",\r\n    \"description\": \"Contain chocolate\",\r\n    \"price\": 8,\r\n    \"currencyCode\": \"USD\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/products/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calculate discount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/products/1/calculateDiscount?code=CODE",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"products",
+								"1",
+								"calculateDiscount"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "CODE",
+									"description": "promo code"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "purchases",
+			"item": [
+				{
+					"name": "create purchase",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/purchases?productID=1&code=CODE",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"purchases"
+							],
+							"query": [
+								{
+									"key": "productID",
+									"value": "1"
+								},
+								{
+									"key": "code",
+									"value": "CODE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sales report",
+					"request": {
 						"method": "GET",
 						"header": []
 					},
 					"response": []
 				},
 				{
-					"name": "calculate discount",
+					"name": "get purchases",
 					"request": {
 						"method": "GET",
 						"header": []

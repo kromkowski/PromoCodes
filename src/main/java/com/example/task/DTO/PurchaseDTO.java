@@ -1,8 +1,8 @@
 package com.example.task.DTO;
 
+import com.example.task.model.Product;
+import com.example.task.model.PromoCode;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,18 +15,13 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
+public class PurchaseDTO {
     @NonNull
-    private String name;
+    private Product product;
 
-    private String description;
-
-    @NonNull
+    @Nullable
     @NumberFormat(style= NumberFormat.Style.CURRENCY)
-    @Positive
-    private BigDecimal price;
+    @DecimalMin(value = "0", inclusive = true)
+    private BigDecimal discountPrice;
 
-    @NonNull
-    @Size(min=3, max=3)
-    private String currencyCode;
 }

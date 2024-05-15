@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -65,6 +66,11 @@ public class ProductService {
         if(!promoCode.getCurrencyCode().equals(product.getCurrencyCode())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Promo code currency code does not match product currency code."
+            );
+        }
+        else if (promoCode.getExpirationDate().isAfter(LocalDate.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Promo code discount cannot be negative."
             );
         }
         var discount = promoCode.getDiscount();

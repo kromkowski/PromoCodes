@@ -1,6 +1,7 @@
 package com.example.task.DTO;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class PromoCodeDTO {
 
     @NonNull
     @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @Positive
     private BigDecimal discount;
 
     @NonNull

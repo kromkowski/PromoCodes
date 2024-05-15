@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -53,6 +54,17 @@ public class PromoCodeService {
             );
         }
         return promoCodes;
+    }
+
+    public BigDecimal usePromoCode(String code) {
+        var promoCode = getPromoCode(code);
+        if(promoCode.getMaxUsages() == 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Promo code has no usages left."
+            );
+        }
+        promoCode.setMaxUsages(promoCode.getMaxUsages() - 1);
+        return promoCodeRepository.save(promoCode).getDiscount();
     }
 
 

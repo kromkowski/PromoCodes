@@ -3,6 +3,7 @@ package com.example.task.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.lang.NonNull;
@@ -31,6 +32,7 @@ public class PromoCode {
 
     @NonNull
     @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @Positive
     private BigDecimal discount;
 
     @NonNull
