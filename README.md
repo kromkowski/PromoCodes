@@ -89,13 +89,28 @@ example body:
 
 ```json
 {
-  "code": "CODE",
-  "discount": "2.00",
-  "currencyCode": "USD",
+  "code": "CODE_PERCENTAGE",
+  "promoCodeType": "percentage",
+  "discount": "25",
+  "currencyCode": "EUR",
   "maxUsages": 32,
   "expirationDate": "2024-08-31"
 }
 ```
+or
+```json
+{
+"code": "CODE_VALUE",
+"promoCodeType": "value",
+"discount": "0.25",
+"currencyCode": "EUR",
+"maxUsages": 32,
+"expirationDate": "2024-08-31"
+}
+```
+\* promoCodeType can be either "percentage" or "value"
+\** discount is either a percentage value or a discount value, depending on the type of promocode
+
 
 ---
 

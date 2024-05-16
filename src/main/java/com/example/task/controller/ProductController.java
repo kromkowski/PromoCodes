@@ -44,17 +44,20 @@ public class ProductController {
 
     @GetMapping("/{id}/calculate-discount")
     public ResponseEntity<?> calculateDiscount(@PathVariable Long id, @RequestParam String code) {
-        System.out.println("id: " + id + " code: " + code);
-        var promoCode = promoCodeService.getPromoCode(code);
         var product = productService.getProduct(id);
-        Object[] data = promoCodeService.usePromoCode(product, promoCode, false);
-        var discountedPrice = (product.getPrice()).subtract((BigDecimal) data[0]);
-        String warning = (String) data[1];
-
-        if (!warning.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).header("Warning", warning).body("Price with discount applied: " + discountedPrice);
+        BigDecimal discountedPrice;
+        if (code != null && !code.isEmpty()) {
+            var promoCode = promoCodeService.getPromoCode(code);
+            Object[] data = promoCodeService.usePromoCode(product, promoCode, false);
+            discountedPrice = (product.getPrice()).subtract((BigDecimal) data[0]);
+            String warning = (String) data[1];
+            if (!warning.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.OK).header("Warning", warning).body("Price with discount applied: " + discountedPrice);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).header("Warning", "No code was given!").body("Price with discount applied: " + product.getPrice());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body("Price with discount applied: " + discountedPrice);
+        return ResponseEntity.status(HttpStatus.OK).body("Price with discount applied: " + discountedPrice);
     }
 
 

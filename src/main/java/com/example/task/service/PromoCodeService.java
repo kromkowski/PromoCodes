@@ -78,6 +78,8 @@ public class PromoCodeService {
                     var promoCodeDiscount = ((PromoCodeValue) promoCode).getDiscountValue();
                     if (product.getPrice().compareTo(promoCodeDiscount) <= 0) {
                         discount = product.getPrice().setScale(product.getPrice().scale(), RoundingMode.UP);;
+                    } else {
+                        discount = promoCodeDiscount.setScale(product.getPrice().scale(), RoundingMode.UP);
                     }
                 }
                 if (isToBeSaved) {
