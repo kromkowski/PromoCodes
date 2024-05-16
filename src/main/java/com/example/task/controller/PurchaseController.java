@@ -32,7 +32,6 @@ public class PurchaseController {
         if (code != null && !code.isEmpty()) {
             var promoCode = promoCodeService.getPromoCode(code);
             if(promoCode.getCurrencyCode().equals(product.getCurrencyCode())){
-                System.out.println("Promo code is applicable for this product");
                 purchaseDTO = new PurchaseDTO(product, promoCodeService.usePromoCode(code));
             } else {
                 warning = "Promo code is not applicable for this product";
@@ -43,7 +42,6 @@ public class PurchaseController {
             purchaseDTO = new PurchaseDTO(product, BigDecimal.ZERO);
         }
         if(!warning.isEmpty()) {
-            System.out.println(warning);
             return ResponseEntity.status(HttpStatus.CREATED).header("Warning", warning).body(purchaseService.createPurchase(purchaseDTO));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.createPurchase(purchaseDTO));

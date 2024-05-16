@@ -37,7 +37,7 @@ public class Purchase {
 
     @Nullable
     @NumberFormat(style= NumberFormat.Style.CURRENCY)
-    @Positive
+    @DecimalMin(value = "0.00", inclusive = true)
     private BigDecimal discountPrice;
 
     @NonNull

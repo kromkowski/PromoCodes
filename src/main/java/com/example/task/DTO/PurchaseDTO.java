@@ -21,7 +21,7 @@ public class PurchaseDTO {
 
     @Nullable
     @NumberFormat(style= NumberFormat.Style.CURRENCY)
-    @DecimalMin(value = "0", inclusive = true)
+    @DecimalMin(value = "0.00", inclusive = true)
     private BigDecimal discountPrice;
 
 }

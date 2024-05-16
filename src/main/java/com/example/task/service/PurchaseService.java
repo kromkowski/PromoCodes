@@ -33,7 +33,7 @@ public class PurchaseService {
             return purchaseRepository.save(purchase);
         } catch (Exception e) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Bad request. Check the purchaseDTO fields and try again."
+                    HttpStatus.BAD_REQUEST
             );
         }
     }

@@ -145,7 +145,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/purchases?productID=1&code=CODE",
+							"raw": "localhost:8080/api/purchases?productID=1",
 							"host": [
 								"localhost"
 							],
@@ -161,7 +161,8 @@
 								},
 								{
 									"key": "code",
-									"value": "CODE"
+									"value": "CODE",
+									"disabled": true
 								}
 							]
 						}
