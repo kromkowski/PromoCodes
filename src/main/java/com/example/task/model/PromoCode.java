@@ -40,8 +40,8 @@ public class PromoCode {
     private String currencyCode;
 
     @NonNull
-    @Min(0)
-    private Integer remainingUses;
+    @Min(1)
+    private Integer maxUsages;
 
     @NonNull
     private LocalDate expirationDate;

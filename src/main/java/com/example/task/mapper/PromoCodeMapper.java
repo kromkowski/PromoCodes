@@ -14,7 +14,7 @@ public class PromoCodeMapper {
                 .code(promoCodeDTO.getCode())
                 .discount(promoCodeDTO.getDiscount())
                 .currencyCode(promoCodeDTO.getCurrencyCode())
-                .remainingUsages(promoCodeDTO.getMaxUsages())
+                .maxUsages(promoCodeDTO.getMaxUsages())
                 .expirationDate(promoCodeDTO.getExpirationDate())
                 .build();
     }

@@ -57,14 +57,13 @@ public class PromoCodeService {
     }
 
     public BigDecimal usePromoCode(String code) {
-        System.out.println("Using promo code: " + code);
         var promoCode = getPromoCode(code);
-        if(promoCode.getRemainingUsages() == 0) {
+        if(promoCode.getMaxUsages() == 0) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT, "Promo code has no usages left."
             );
         }
-        promoCode.setRemainingUsages(promoCode.getRemainingUsages() - 1);
+        promoCode.setMaxUsages(promoCode.getMaxUsages() - 1);
         return promoCodeRepository.save(promoCode).getDiscount();
     }
 
