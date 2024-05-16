@@ -84,7 +84,7 @@ example body:
 (POST)
 
 ```
-localhost:8080/api/promocodes
+localhost:8080/api/promo-codes
 ```
 
 example body:
@@ -121,7 +121,7 @@ or
 (GET)
 
 ```
-localhost:8080/api/promocodes
+localhost:8080/api/promo-codes
 ```
 
 ---
@@ -131,7 +131,7 @@ localhost:8080/api/promocodes
 (GET)
 
 ```
-localhost:8080/api/promocodes/{code}
+localhost:8080/api/promo-codes/{code}
 ```
 
 ---
