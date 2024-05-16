@@ -2,15 +2,17 @@ package com.example.task.controller;
 
 import com.example.task.DTO.ProductDTO;
 import com.example.task.DTO.PromoCodeDTO;
-import com.example.task.model.Product;
+import com.example.task.model.Purchase;
 import com.example.task.repository.ProductRepository;
 import com.example.task.repository.PromoCodeRepository;
+import com.example.task.repository.PurchaseRepository;
 import com.example.task.service.ProductService;
 import com.example.task.service.PromoCodeService;
+import com.example.task.service.PurchaseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +29,21 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @ExtendWith(SpringExtension.class)
 //@WebMvcTest(PromoCodeController.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProductControllerTest {
+class PurchaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private PurchaseService purchaseService;
 
     @Autowired
     private ProductService productService;
@@ -49,116 +52,24 @@ class ProductControllerTest {
     private PromoCodeService promoCodeService;
 
     @Autowired
+    private PurchaseRepository purchaseRepository;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private PromoCodeRepository promoCodeRepository;
 
-    @AfterEach
+    @BeforeEach
     public void cleanup() {
+        purchaseRepository.deleteAll();
         productRepository.deleteAll();
         promoCodeRepository.deleteAll();
     }
 
-    @Test
-    void createProduct() throws Exception {
-        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(productDTO);
-        var response = mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isCreated())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(201, response.getStatus());
-        assertEquals(1, productRepository.count());
-        assertEquals("TEST", productRepository.findAll().getFirst().getName());
-        assertEquals("descrdsaption", productRepository.findAll().getFirst().getDescription());
-        assertEquals(BigDecimal.valueOf(22.22), productRepository.findAll().getFirst().getPrice());
-        assertEquals("PLN", productRepository.findAll().getFirst().getCurrencyCode());
-    }
 
     @Test
-    void getAllProducts() throws Exception {
-        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(productDTO);
-        var response = mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isCreated())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(201, response.getStatus());
-
-        response = mockMvc.perform(MockMvcRequestBuilders.get("/api/products"))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(200, response.getStatus());
-        List<Product> list = objectMapper.readValue(response.getContentAsString(), objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class));
-        assertEquals(1, list.size());
-        assertEquals("TEST", list.getFirst().getName());
-        assertEquals("descrdsaption", list.getFirst().getDescription());
-        assertEquals(BigDecimal.valueOf(22.22), list.getFirst().getPrice());
-        assertEquals("PLN", list.getFirst().getCurrencyCode());
-    }
-
-    @Test
-    void getProduct() throws Exception {
-        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(productDTO);
-        var response = mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isCreated())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(201, response.getStatus());
-        Long id = productRepository.findAll().getFirst().getId();
-        response = mockMvc.perform(MockMvcRequestBuilders.get("/api/products/" + id))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(200, response.getStatus());
-        Product product = objectMapper.readValue(response.getContentAsString(), Product.class);
-
-        assertEquals("TEST", product.getName());
-        assertEquals("descrdsaption", product.getDescription());
-        assertEquals(BigDecimal.valueOf(22.22), product.getPrice());
-        assertEquals("PLN", product.getCurrencyCode());
-    }
-
-    @Test
-    void updateProduct() throws Exception {
-        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(productDTO);
-        var response = mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isCreated())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(201, response.getStatus());
-
-        ProductDTO productDTOEdited = new ProductDTO("TEST", "no description", BigDecimal.valueOf(22.22), "PLN");
-        String requestBodyEdited = objectMapper.writeValueAsString(productDTOEdited);
-        response = mockMvc.perform(MockMvcRequestBuilders.put("/api/products/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBodyEdited))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andReturn().getResponse();
-        assertEquals(200, response.getStatus());
-        assertEquals("no description", productRepository.findFirstById(1L).getDescription());
-
-    }
-
-    @Test
-    void calculateDiscountValue() throws Exception {
+    void createPurchase() throws Exception {
         PromoCodeDTO promoCodeDTO = new PromoCodeDTO("value", "TEST_CALCULATE", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -185,11 +96,115 @@ class ProductControllerTest {
                 .andReturn().getResponse();
         assertEquals(201, response.getStatus());
         Long id = productRepository.findAll().getFirst().getId();
-        response = mockMvc.perform(MockMvcRequestBuilders.get("/api/products/" + id + "/calculate-discount?code=TEST_CALCULATE"))
+
+        response = mockMvc.perform(post("/api/purchases?productID=" + id + "&code=" + "TEST_CALCULATE"))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+        assertEquals("TEST", purchaseRepository.findAll().getFirst().getProduct().getName());
+        assertEquals(BigDecimal.valueOf(22.22), purchaseRepository.findAll().getFirst().getRegularPrice());
+        assertEquals(BigDecimal.valueOf(10.22), purchaseRepository.findAll().getFirst().getDiscountAmount());
+        assertEquals("PLN", purchaseRepository.findAll().getFirst().getCurrencyCode());
+        assertEquals(LocalDate.now(), purchaseRepository.findAll().getFirst().getPurchaseDate());
+    }
+
+    @Test
+    void getAllPurchases() throws Exception {
+        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("value", "TEST1", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        objectMapper.setDateFormat(dateFormat);
+        objectMapper.registerModule(new JavaTimeModule());
+        String requestBody = objectMapper.writeValueAsString(promoCodeDTO);
+
+        var response = mockMvc.perform(post("/api/promo-codes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+
+        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
+        String requestBodyProduct = objectMapper.writeValueAsString(productDTO);
+        response = mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBodyProduct))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+        Long id = productRepository.findAll().getFirst().getId();
+
+        response = mockMvc.perform(post("/api/purchases?productID=" + id + "&code=" + "TEST1"))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+
+        response = mockMvc.perform(MockMvcRequestBuilders.get("/api/purchases"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn().getResponse();
         assertEquals(200, response.getStatus());
-        assertTrue(response.getContentAsString().contains("12.00"));
+        List<Purchase> purchases = objectMapper.readValue(response.getContentAsString(), objectMapper.getTypeFactory().constructCollectionType(List.class, Purchase.class));
+        assertEquals(1, purchases.size());
+        assertEquals("TEST", purchases.getFirst().getProduct().getName());
+        assertEquals(BigDecimal.valueOf(22.22), purchases.getFirst().getRegularPrice());
+        assertEquals(BigDecimal.valueOf(10.22), purchases.getFirst().getDiscountAmount());
+        assertEquals("PLN", purchases.getFirst().getCurrencyCode());
+        assertEquals(LocalDate.now(), purchases.getFirst().getPurchaseDate());
     }
+
+    @Test
+    void getPurchase() throws Exception {
+        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("value", "TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        objectMapper.setDateFormat(dateFormat);
+        objectMapper.registerModule(new JavaTimeModule());
+        String requestBody = objectMapper.writeValueAsString(promoCodeDTO);
+
+        var response = mockMvc.perform(post("/api/promo-codes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+
+        ProductDTO productDTO = new ProductDTO("TEST", "descrdsaption", BigDecimal.valueOf(22.22), "PLN");
+        String requestBodyProduct = objectMapper.writeValueAsString(productDTO);
+        response = mockMvc.perform(post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBodyProduct))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+        Long id = productRepository.findAll().getFirst().getId();
+
+        response = mockMvc.perform(post("/api/purchases?productID=" + id + "&code=" + "TEST"))
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(201, response.getStatus());
+        id = purchaseRepository.findAll().getFirst().getId();
+        response = mockMvc.perform(MockMvcRequestBuilders.get("/api/purchases/" + id))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn().getResponse();
+        assertEquals(200, response.getStatus());
+        Purchase purchase = objectMapper.readValue(response.getContentAsString(), Purchase.class);
+        assertEquals("TEST", purchase.getProduct().getName());
+        assertEquals(BigDecimal.valueOf(22.22), purchase.getRegularPrice());
+        assertEquals(BigDecimal.valueOf(10.22), purchase.getDiscountAmount());
+        assertEquals("PLN", purchase.getCurrencyCode());
+        assertEquals(LocalDate.now(), purchase.getPurchaseDate());
+    }
+
+
 }

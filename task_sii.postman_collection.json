@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"code\": \"CODE_VALUE\",\r\n  \"promoCodeType\": \"value\",\r\n  \"discount\": \"25\",\r\n  \"currencyCode\": \"EUR\",\r\n  \"maxUsages\": 32,\r\n  \"expirationDate\": \"2024-08-31\"\r\n}\r\n",
+							"raw": "{\r\n  \"code\": \"CODE_VALUE\",\r\n  \"promoCodeType\": \"value\",\r\n  \"discount\": \"0.99\",\r\n  \"currencyCode\": \"EUR\",\r\n  \"maxUsages\": 32,\r\n  \"expirationDate\": \"2024-08-31\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +204,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/purchases?productID=1&code=CODE_PERCENTAGE",
+							"raw": "localhost:8080/api/purchases?productID=1&code=CODE_VALUE",
 							"host": [
 								"localhost"
 							],
@@ -221,7 +221,7 @@
 								},
 								{
 									"key": "code",
-									"value": "CODE_PERCENTAGE",
+									"value": "CODE_VALUE",
 									"description": "promo code (optional)"
 								}
 							]

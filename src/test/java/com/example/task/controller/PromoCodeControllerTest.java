@@ -1,11 +1,8 @@
 package com.example.task.controller;
 
 import com.example.task.DTO.PromoCodeDTO;
-import com.example.task.mapper.PromoCodeMapper;
-import com.example.task.model.Product;
 import com.example.task.model.PromoCode;
 import com.example.task.model.PromoCodePercentage;
-import com.example.task.model.PromoCodeValue;
 import com.example.task.repository.PromoCodeRepository;
 import com.example.task.service.PromoCodeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,7 +51,7 @@ class PromoCodeControllerTest {
 
     @Test
     void createPromoCodeValue() throws Exception {
-        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("value","TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
+        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("value", "TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,7 +75,7 @@ class PromoCodeControllerTest {
 
     @Test
     void createPromoCodePercentage() throws Exception {
-        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("percentage","TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
+        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("percentage", "TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -103,7 +100,7 @@ class PromoCodeControllerTest {
 
     @Test
     void getAllPromoCodes() throws Exception {
-        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("percentage","TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
+        PromoCodeDTO promoCodeDTO = new PromoCodeDTO("percentage", "TEST", BigDecimal.valueOf(10.22), "PLN", 3, LocalDate.of(2024, 7, 5));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -127,11 +124,10 @@ class PromoCodeControllerTest {
         assertEquals(200, response.getStatus());
         List<PromoCode> list = objectMapper.readValue(response.getContentAsString(), objectMapper.getTypeFactory().constructCollectionType(List.class, PromoCodePercentage.class));
         assertEquals(1, list.size());
-        assertEquals("TEST", list.get(0).getCode());
-        assertEquals("PLN", list.get(0).getCurrencyCode());
-        assertEquals(3, list.get(0).getRemainingUses());
-        assertEquals(promoCodeDTO.getExpirationDate(), list.get(0).getExpirationDate());
-
+        assertEquals("TEST", list.getFirst().getCode());
+        assertEquals("PLN", list.getFirst().getCurrencyCode());
+        assertEquals(3, list.getFirst().getRemainingUses());
+        assertEquals(promoCodeDTO.getExpirationDate(), list.getFirst().getExpirationDate());
 
 
     }

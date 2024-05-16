@@ -4,11 +4,6 @@ import com.example.task.DTO.PromoCodeDTO;
 import com.example.task.model.PromoCode;
 import com.example.task.model.PromoCodePercentage;
 import com.example.task.model.PromoCodeValue;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
-import java.text.SimpleDateFormat;
 
 public class PromoCodeMapper {
     public static PromoCode toPromoCode(PromoCodeDTO promoCodeDTO) {

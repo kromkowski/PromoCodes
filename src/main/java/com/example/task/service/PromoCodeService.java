@@ -26,7 +26,6 @@ public class PromoCodeService {
 
     public PromoCode createPromoCode(PromoCodeDTO promoCodeDTO) {
         if (promoCodeRepository.findFirstByCode(promoCodeDTO.getCode()) != null) {
-            System.out.println("Promo code with such code already exists.");
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT, "Promo code with such code already exists."
             );
@@ -48,7 +47,6 @@ public class PromoCodeService {
                     HttpStatus.NOT_FOUND, "Promo code of such id was not found."
             );
         }
-        System.out.println('\n' + promoCode.toString() + '\n');
         return promoCode;
     }
 
@@ -64,7 +62,7 @@ public class PromoCodeService {
 
     public Object[] usePromoCode(Product product, PromoCode promoCode, boolean isToBeSaved) {
         Object[] result = new Object[2];
-        String warning = new String();
+        String warning = "";
         BigDecimal discount = BigDecimal.ZERO; //ustawić format na currency
         if (promoCode.getRemainingUses() == 0) {
             warning = "Promo code has no remaining uses.";
@@ -74,10 +72,9 @@ public class PromoCodeService {
                     var percentageToDecimal = ((PromoCodePercentage) promoCode).getDiscountPercentage().divide(BigDecimal.valueOf(100), 2, RoundingMode.UP);
                     discount = product.getPrice().multiply(percentageToDecimal).setScale(product.getPrice().scale(), RoundingMode.UP);
                 } else if (promoCode instanceof PromoCodeValue) {
-                    System.out.println("To jest promo code value");
                     var promoCodeDiscount = ((PromoCodeValue) promoCode).getDiscountValue();
                     if (product.getPrice().compareTo(promoCodeDiscount) <= 0) {
-                        discount = product.getPrice().setScale(product.getPrice().scale(), RoundingMode.UP);;
+                        discount = product.getPrice().setScale(product.getPrice().scale(), RoundingMode.UP);
                     } else {
                         discount = promoCodeDiscount.setScale(product.getPrice().scale(), RoundingMode.UP);
                     }
@@ -90,7 +87,6 @@ public class PromoCodeService {
                 warning = "Promo code is not applicable for this product";
             }
         }
-        System.out.println("Discount: " + discount + " Warning: " + warning);
         result[0] = discount;
         result[1] = warning;
         return result;

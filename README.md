@@ -13,6 +13,8 @@ mvn spring-boot:run
 
 \* the database schema is automatically generated during the startup of the app
 
+This app runs on port 8080.
+
 If you want to use database queries, you can use the following link (assuming that the app is running in the background)
 http://localhost:8080/h2-console
 
