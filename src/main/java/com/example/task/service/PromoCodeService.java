@@ -67,7 +67,7 @@ public class PromoCodeService {
         if (promoCode.getRemainingUses() == 0) {
             warning = "Promo code has no remaining uses.";
         } else {
-            if (promoCode.getCurrencyCode().equals(product.getCurrencyCode()) || promoCode.getExpirationDate().isBefore(LocalDate.now())) {
+            if (promoCode.getCurrencyCode().equals(product.getCurrencyCode()) && !promoCode.getExpirationDate().isBefore(LocalDate.now())) {
                 if (promoCode instanceof PromoCodePercentage) {//mozliwe, ze bedzie zle liczylo
                     var percentageToDecimal = ((PromoCodePercentage) promoCode).getDiscountPercentage().divide(BigDecimal.valueOf(100), 2, RoundingMode.UP);
                     discount = product.getPrice().multiply(percentageToDecimal).setScale(product.getPrice().scale(), RoundingMode.UP);
