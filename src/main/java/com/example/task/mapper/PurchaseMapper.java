@@ -10,7 +10,7 @@ public class PurchaseMapper {
         return Purchase.builder()
                 .product(purchaseDTO.getProduct())
                 .regularPrice(purchaseDTO.getProduct().getPrice())
-                .discountPrice(purchaseDTO.getDiscountPrice())
+                .discountValue(purchaseDTO.getDiscountPrice())
                 .currencyCode(purchaseDTO.getProduct().getCurrencyCode())
                 .purchaseDate(LocalDate.now()).build();
     }

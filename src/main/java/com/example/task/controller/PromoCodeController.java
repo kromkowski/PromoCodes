@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/promocodes")
+@RequestMapping("/api/promo-codes")
 public class PromoCodeController {
     private final PromoCodeService promoCodeService;
 
@@ -25,7 +25,7 @@ public class PromoCodeController {
         return ResponseEntity.status(HttpStatus.OK).body(promoCodeService.getAllPromoCodes());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{code}")
     public ResponseEntity<?> getPromoCode(@PathVariable String code) {
         return ResponseEntity.status(HttpStatus.OK).body(promoCodeService.getPromoCode(code));
     }

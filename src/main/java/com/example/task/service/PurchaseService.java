@@ -2,9 +2,7 @@ package com.example.task.service;
 
 import com.example.task.DTO.PurchaseDTO;
 import com.example.task.mapper.PurchaseMapper;
-import com.example.task.model.Product;
 import com.example.task.model.Purchase;
-import com.example.task.repository.PromoCodeRepository;
 import com.example.task.repository.PurchaseRepository;
 import dnl.utils.text.table.TextTable;
 import org.springframework.http.HttpStatus;
@@ -12,10 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 
@@ -60,9 +56,6 @@ public class PurchaseService {
 
     public String printSalesReport(){
         List<Purchase> purchases = getAllPurchases();
-//        StringBuilder report = new StringBuilder();
-//        report.append("| Currency | Total amount | Total discount | No of purchases |\n");
-//        report.append("|:--------:|-------------:|---------------:|----------------:|\n");
         HashSet<String> currencies = new HashSet<>();
         for(Purchase purchase : purchases){
             currencies.add(purchase.getProduct().getCurrencyCode());
@@ -71,13 +64,13 @@ public class PurchaseService {
         int index = 0;
         for(String currency : currencies){
             int noOfPurchases = 0;
-            double totalAmount = 0;
-            double totalDiscount = 0;
+            BigDecimal totalAmount = BigDecimal.ZERO;
+            BigDecimal totalDiscount = BigDecimal.ZERO;
             for(Purchase purchase : purchases){
                 if(purchase.getProduct().getCurrencyCode().equals(currency)){
                     noOfPurchases++;
-                    totalAmount += purchase.getRegularPrice().doubleValue();
-                    totalDiscount += purchase.getDiscountPrice().doubleValue();
+                    totalAmount = totalAmount.add(purchase.getRegularPrice());
+                    totalDiscount = totalDiscount.add(purchase.getDiscountValue());
                 }
             }
             reportData[index][0] = currency;

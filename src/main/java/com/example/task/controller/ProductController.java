@@ -40,8 +40,8 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(productDTO, id));
     }
 
-    @GetMapping("/{id}/calculateDiscount")
-    public ResponseEntity<?> calculateDiscount(@PathVariable Long id, @RequestParam(required = true) String code) {
+    @GetMapping("/{id}/calculate-discount")
+    public ResponseEntity<?> calculateDiscount(@PathVariable Long id, @RequestParam String code) {
         var promoCode = promoCodeService.getPromoCode(code);
         return ResponseEntity.status(HttpStatus.OK).body(productService.calculateDiscount(id, promoCode));
     }

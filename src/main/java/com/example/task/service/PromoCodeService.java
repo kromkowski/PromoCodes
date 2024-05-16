@@ -58,12 +58,12 @@ public class PromoCodeService {
 
     public BigDecimal usePromoCode(String code) {
         var promoCode = getPromoCode(code);
-        if(promoCode.getMaxUsages() == 0) {
+        if(promoCode.getRemainingUses() == 0) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT, "Promo code has no usages left."
             );
         }
-        promoCode.setMaxUsages(promoCode.getMaxUsages() - 1);
+        promoCode.setRemainingUses(promoCode.getRemainingUses() - 1);
         return promoCodeRepository.save(promoCode).getDiscount();
     }
 

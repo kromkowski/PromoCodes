@@ -13,6 +13,12 @@ mvn spring-boot:run
 If you want to use database queries, you can use the following link (assuming that the app is running in the background)
 http://localhost:8080/h2-console
 
+Login credentials for database:
+```
+username: sa
+password: password
+```
+
 ## REST API endpoints:
 
 1. Create a new product
