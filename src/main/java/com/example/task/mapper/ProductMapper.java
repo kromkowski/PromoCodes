@@ -3,12 +3,9 @@ package com.example.task.mapper;
 import com.example.task.DTO.ProductDTO;
 import com.example.task.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-import java.text.SimpleDateFormat;
 
 public class ProductMapper {
-    public static Product toProduct(ProductDTO productDTO ) {
+    public static Product toProduct(ProductDTO productDTO) {
         return Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())

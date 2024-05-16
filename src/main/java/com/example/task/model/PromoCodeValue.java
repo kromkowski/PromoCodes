@@ -1,30 +1,27 @@
-package com.example.task.DTO;
+package com.example.task.model;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.lang.NonNull;
 
 import java.math.BigDecimal;
 
-@Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDTO {
-    @NonNull
-    private String name;
-    @NonNull
-    private String description;
+@Getter
+@Setter
+@DiscriminatorValue("value")
+public class PromoCodeValue extends PromoCode {
 
     @NonNull
     @NumberFormat(style = NumberFormat.Style.CURRENCY)
     @Positive
-    private BigDecimal price;
-
-    @NonNull
-    @Size(min = 3, max = 3)
-    private String currencyCode;
+    private BigDecimal discountValue;
 }

@@ -36,7 +36,7 @@ public class PurchaseService {
 
     public Purchase getPurchase(Long id) {
         var purchase = purchaseRepository.findFirstById(id);
-        if(purchase == null) {
+        if (purchase == null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Purchase of such id was not found."
             );
@@ -46,7 +46,7 @@ public class PurchaseService {
 
     public List<Purchase> getAllPurchases() {
         var purchases = purchaseRepository.findAll();
-        if(purchases.isEmpty()) {
+        if (purchases.isEmpty()) {
             throw new ResponseStatusException(
                     HttpStatus.NO_CONTENT, "No purchases found."
             );
@@ -54,23 +54,23 @@ public class PurchaseService {
         return purchases;
     }
 
-    public String printSalesReport(){
+    public String printSalesReport() {
         List<Purchase> purchases = getAllPurchases();
         HashSet<String> currencies = new HashSet<>();
-        for(Purchase purchase : purchases){
-            currencies.add(purchase.getProduct().getCurrencyCode());
+        for (Purchase purchase : purchases) {
+            currencies.add(purchase.getCurrencyCode());
         }
-        Object [][] reportData = new Object[currencies.size()][4];
+        Object[][] reportData = new Object[currencies.size()][4];
         int index = 0;
-        for(String currency : currencies){
+        for (String currency : currencies) {
             int noOfPurchases = 0;
             BigDecimal totalAmount = BigDecimal.ZERO;
             BigDecimal totalDiscount = BigDecimal.ZERO;
-            for(Purchase purchase : purchases){
-                if(purchase.getProduct().getCurrencyCode().equals(currency)){
+            for (Purchase purchase : purchases) {
+                if (purchase.getCurrencyCode().equals(currency)) {
                     noOfPurchases++;
                     totalAmount = totalAmount.add(purchase.getRegularPrice());
-                    totalDiscount = totalDiscount.add(purchase.getDiscountValue());
+                    totalDiscount = totalDiscount.add(purchase.getDiscountAmount());
                 }
             }
             reportData[index][0] = currency;
@@ -80,7 +80,7 @@ public class PurchaseService {
             index++;
         }
         String[] columnNames = {"Currency", "Total amount", "Total discount", "No of purchases"};
-        TextTable report= new TextTable(columnNames, reportData);
+        TextTable report = new TextTable(columnNames, reportData);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         report.printTable(printStream, 0);

@@ -4,7 +4,6 @@ import com.example.task.DTO.PurchaseDTO;
 import com.example.task.service.ProductService;
 import com.example.task.service.PromoCodeService;
 import com.example.task.service.PurchaseService;
-import dnl.utils.text.table.TextTable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +27,16 @@ public class PurchaseController {
     public ResponseEntity<?> createPurchase(@RequestParam(required = true) Long productID, @RequestParam(required = false) String code) {
         var product = productService.getProduct(productID);
         PurchaseDTO purchaseDTO;
-        String warning = new String();
         if (code != null && !code.isEmpty()) {
             var promoCode = promoCodeService.getPromoCode(code);
-            if(promoCode.getCurrencyCode().equals(product.getCurrencyCode())){
-                purchaseDTO = new PurchaseDTO(product, promoCodeService.usePromoCode(code));
-            } else {
-                warning = "Promo code is not applicable for this product";
-                purchaseDTO = new PurchaseDTO(product, BigDecimal.ZERO);
+            Object[] data = promoCodeService.usePromoCode(product, promoCode, true);
+            String warning = (String) data[1];
+            purchaseDTO = new PurchaseDTO(product, (BigDecimal) data[0]);
+            if (!warning.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.CREATED).header("Warning", warning).body(purchaseService.createPurchase(purchaseDTO));
             }
-
         } else {
             purchaseDTO = new PurchaseDTO(product, BigDecimal.ZERO);
-        }
-        if(!warning.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).header("Warning", warning).body(purchaseService.createPurchase(purchaseDTO));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.createPurchase(purchaseDTO));
     }
@@ -57,9 +51,9 @@ public class PurchaseController {
         return ResponseEntity.status(HttpStatus.OK).body(purchaseService.getPurchase(id));
     }
 
-    @GetMapping(value ="/sales-report", produces = "text/plain")
+    @GetMapping(value = "/sales-report", produces = "text/plain")
     public ResponseEntity<?> getSalesReport() {
-        return ResponseEntity.ok(purchaseService.printSalesReport().toString());
+        return ResponseEntity.ok(purchaseService.printSalesReport());
     }
 
 }

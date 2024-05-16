@@ -31,17 +31,17 @@ public class Purchase {
     private Product product;
 
     @NonNull
-    @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
     @Positive
     private BigDecimal regularPrice;
 
     @Nullable
-    @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
     @DecimalMin(value = "0.00")
-    private BigDecimal discountValue;
+    private BigDecimal discountAmount;
 
     @NonNull
-    @Size(min=3, max=3)
+    @Size(min = 3, max = 3)
     private String currencyCode;
 
     @CreatedDate

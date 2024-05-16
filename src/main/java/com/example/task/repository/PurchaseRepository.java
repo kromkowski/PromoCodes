@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     Purchase findFirstById(Long id);
+
     List<Purchase> findAll();
 }

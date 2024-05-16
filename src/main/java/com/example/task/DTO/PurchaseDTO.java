@@ -1,7 +1,6 @@
 package com.example.task.DTO;
 
 import com.example.task.model.Product;
-import com.example.task.model.PromoCode;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +19,8 @@ public class PurchaseDTO {
     private Product product;
 
     @Nullable
-    @NumberFormat(style= NumberFormat.Style.CURRENCY)
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
     @DecimalMin(value = "0.00", inclusive = true)
-    private BigDecimal discountPrice;
+    private BigDecimal discountAmount;
 
 }

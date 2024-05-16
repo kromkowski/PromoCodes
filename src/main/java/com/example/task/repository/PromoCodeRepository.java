@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface PromoCodeRepository extends JpaRepository<PromoCode, String> {
     PromoCode findFirstByCode(String code);
+
     List<PromoCode> findAll();
+
 }
