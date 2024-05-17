@@ -51,11 +51,17 @@ public class ProductService {
 
     public Product updateProduct(ProductDTO productDTO, Long id) {
         var product = getProduct(id);
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
-        product.setCurrencyCode(productDTO.getCurrencyCode());
-        return productRepository.save(product);
+        try{
+            product.setName(productDTO.getName());
+            product.setDescription(productDTO.getDescription());
+            product.setPrice(productDTO.getPrice());
+            product.setCurrencyCode(productDTO.getCurrencyCode());
+            return productRepository.save(product);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Bad request. Check the productDTO fields and try again."
+            );
+        }
     }
 
 }
